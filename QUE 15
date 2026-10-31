@@ -1,0 +1,121 @@
+
+#include <stdio.h>
+#include <string.h>
+
+char users[10][20];
+char files[10][10][20];
+int count[10] = {0};
+int nu = 0;
+
+int main()
+{
+    int choice, i, j, u;
+    char user[20], file[20];
+
+    while (1)
+    {
+        printf("\n1. Create User");
+        printf("\n2. Create File");
+        printf("\n3. Display Files");
+        printf("\n4. Search File");
+        printf("\n5. Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                printf("Enter user name: ");
+                scanf("%19s", user);
+
+                for (i = 0; i < nu; i++)
+                    if (strcmp(users[i], user) == 0)
+                        break;
+
+                if (i < nu)
+                    printf("User already exists");
+                else if (nu < 10)
+                {
+                    strcpy(users[nu++], user);
+                    printf("User created successfully");
+                }
+                else
+                    printf("User limit reached");
+                break;
+
+            case 2:
+                printf("Enter user name: ");
+                scanf("%19s", user);
+
+                for (u = 0; u < nu; u++)
+                    if (strcmp(users[u], user) == 0)
+                        break;
+
+                if (u == nu)
+                {
+                    printf("User not found");
+                    break;
+                }
+
+                printf("Enter file name: ");
+                scanf("%19s", file);
+
+                for (j = 0; j < count[u]; j++)
+                    if (strcmp(files[u][j], file) == 0)
+                        break;
+
+                if (j < count[u])
+                    printf("File already exists");
+                else if (count[u] < 10)
+                {
+                    strcpy(files[u][count[u]++], file);
+                    printf("File created successfully");
+                }
+                else
+                    printf("Directory is full");
+                break;
+
+            case 3:
+                for (i = 0; i < nu; i++)
+                {
+                    printf("\nUser: %s\n", users[i]);
+                    for (j = 0; j < count[i]; j++)
+                        printf("%s\n", files[i][j]);
+                }
+                break;
+
+            case 4:
+                printf("Enter user name: ");
+                scanf("%19s", user);
+
+                for (u = 0; u < nu; u++)
+                    if (strcmp(users[u], user) == 0)
+                        break;
+
+                if (u == nu)
+                {
+                    printf("User not found");
+                    break;
+                }
+
+                printf("Enter file name: ");
+                scanf("%19s", file);
+
+                for (j = 0; j < count[u]; j++)
+                    if (strcmp(files[u][j], file) == 0)
+                        break;
+
+                if (j < count[u])
+                    printf("File found");
+                else
+                    printf("File not found");
+                break;
+
+            case 5:
+                return 0;
+
+            default:
+                printf("Invalid choice");
+        }
+    }
+}
