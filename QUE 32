@@ -1,0 +1,93 @@
+#include <stdio.h>
+
+int main()
+{
+    int pages[50], frames[10];
+    int n, f, i, j, k;
+    int pageFaults = 0, found;
+    int time[10], counter = 0, least;
+
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+
+    printf("Enter the page reference string: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &pages[i]);
+
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    for (i = 0; i < f; i++)
+    {
+        frames[i] = -1;
+        time[i] = 0;
+    }
+
+    printf("\nPage\tFrames\t\tStatus\n");
+
+    for (i = 0; i < n; i++)
+    {
+        found = 0;
+
+        // Check whether the page is already present
+        for (j = 0; j < f; j++)
+        {
+            if (frames[j] == pages[i])
+            {
+                found = 1;
+                time[j] = ++counter;
+                break;
+            }
+        }
+
+        // If page is not present, page fault occurs
+        if (found == 0)
+        {
+            pageFaults++;
+
+            // Find an empty frame
+            for (j = 0; j < f; j++)
+            {
+                if (frames[j] == -1)
+                    break;
+            }
+
+            // If no empty frame, replace LRU page
+            if (j == f)
+            {
+                least = 0;
+
+                for (k = 1; k < f; k++)
+                {
+                    if (time[k] < time[least])
+                        least = k;
+                }
+
+                j = least;
+            }
+
+            frames[j] = pages[i];
+            time[j] = ++counter;
+        }
+
+        printf("%d\t", pages[i]);
+
+        for (j = 0; j < f; j++)
+        {
+            if (frames[j] != -1)
+                printf("%d ", frames[j]);
+            else
+                printf("- ");
+        }
+
+        if (found == 0)
+            printf("\tPage Fault\n");
+        else
+            printf("\tPage Hit\n");
+    }
+
+    printf("\nTotal Page Faults = %d\n", pageFaults);
+    printf("Total Page Hits = %d\n", n - pageFaults);
+
+    return 0;
+}
