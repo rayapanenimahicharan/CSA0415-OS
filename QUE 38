@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int n, i, j, head, disk_size, direction;
+    int request[100], temp, total_seek = 0;
+    int current;
+
+    printf("Enter the number of disk requests: ");
+    scanf("%d", &n);
+
+    printf("Enter the disk size: ");
+    scanf("%d", &disk_size);
+
+    printf("Enter the disk requests:\n");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &request[i]);
+    }
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    printf("Enter direction (0 for left, 1 for right): ");
+    scanf("%d", &direction);
+
+    /* Sort the requests */
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (request[j] > request[j + 1])
+            {
+                temp = request[j];
+                request[j] = request[j + 1];
+                request[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\nSeek Sequence: %d", head);
+    current = head;
+
+    if (direction == 1)
+    {
+        /* Move towards right */
+        for (i = 0; i < n; i++)
+        {
+            if (request[i] >= head)
+            {
+                total_seek += abs(current - request[i]);
+                current = request[i];
+                printf(" -> %d", current);
+            }
+        }
+
+        /* Move to the end of the disk */
+        if (current != disk_size - 1)
+        {
+            total_seek += abs(current - (disk_size - 1));
+            current = disk_size - 1;
+            printf(" -> %d", current);
+        }
+
+        /* Reverse direction */
+        for (i = n - 1; i >= 0; i--)
+        {
+            if (request[i] < head)
+            {
+                total_seek += abs(current - request[i]);
+                current = request[i];
+                printf(" -> %d", current);
+            }
+        }
+    }
+    else
+    {
+        /* Move towards left */
+        for (i = n - 1; i >= 0; i--)
+        {
+            if (request[i] <= head)
+            {
+                total_seek += abs(current - request[i]);
+                current = request[i];
+                printf(" -> %d", current);
+            }
+        }
+
+        /* Move to the beginning of the disk */
+        if (current != 0)
+        {
+            total_seek += abs(current - 0);
+            current = 0;
+            printf(" -> %d", current);
+        }
+
+        /* Reverse direction */
+        for (i = 0; i < n; i++)
+        {
+            if (request[i] > head)
+            {
+                total_seek += abs(current - request[i]);
+                current = request[i];
+                printf(" -> %d", current);
+            }
+        }
+    }
+
+    printf("\nTotal seek time = %d", total_seek);
+
+    return 0;
+}
