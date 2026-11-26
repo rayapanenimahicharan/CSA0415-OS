@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int main()
+{
+    int n, i, record;
+
+    printf("Enter the number of records: ");
+    scanf("%d", &n);
+
+    int file[n];
+
+    printf("Enter the records:\n");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &file[i]);
+    }
+
+    printf("\nRecords stored sequentially:\n");
+    for (i = 0; i < n; i++)
+    {
+        printf("Record %d = %d\n", i + 1, file[i]);
+    }
+
+    printf("\nEnter the record number to access: ");
+    scanf("%d", &record);
+
+    if (record >= 1 && record <= n)
+    {
+        printf("\nReading records sequentially:\n");
+
+        for (i = 0; i < record; i++)
+        {
+            printf("Record %d = %d\n", i + 1, file[i]);
+        }
+
+        printf("\nRequested record: %d\n", file[record - 1]);
+    }
+    else
+    {
+        printf("Invalid record number!\n");
+    }
+
+    return 0;
+}
