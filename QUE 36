@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+int main()
+{
+    int n, i, start, end, block[50], next[50];
+
+    printf("Enter the number of blocks in the file: ");
+    scanf("%d", &n);
+
+    printf("Enter the disk block numbers:\n");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &block[i]);
+    }
+
+    // Create links between blocks
+    for (i = 0; i < n - 1; i++)
+    {
+        next[i] = block[i + 1];
+    }
+
+    next[n - 1] = -1;
+
+    // Directory contains first and last block
+    start = block[0];
+    end = block[n - 1];
+
+    printf("\nDirectory Information:\n");
+    printf("Starting Block: %d\n", start);
+    printf("Ending Block: %d\n", end);
+
+    printf("\nBlock\tNext Block\n");
+
+    for (i = 0; i < n; i++)
+    {
+        printf("%d\t", block[i]);
+
+        if (next[i] == -1)
+            printf("NULL\n");
+        else
+            printf("%d\n", next[i]);
+    }
+
+    // Display linked allocation
+    printf("\nFile Allocation Chain:\n");
+
+    for (i = 0; i < n; i++)
+    {
+        printf("%d", block[i]);
+
+        if (next[i] != -1)
+            printf(" -> ");
+    }
+
+    printf(" -> NULL\n");
+
+    return 0;
+}
